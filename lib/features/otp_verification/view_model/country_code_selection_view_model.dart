@@ -5,7 +5,9 @@ import 'package:yuktidea/features/otp_verification/repository/country_code_selec
 import '../../../data/response/api_response.dart';
 
 class CountryCodeSelectionViewModel extends ChangeNotifier {
-  final _myRepo = CountryCodeSelectionRepository();
+  final CountryCodeSelectionRepository _myRepo =
+      CountryCodeSelectionRepository();
+  late List<CountryData> filteredCountryCodeList = [];
   ApiResponse<CountryCode> countryCode = ApiResponse.loading();
 
   setTermCondition(ApiResponse<CountryCode> response) {
@@ -19,7 +21,16 @@ class CountryCodeSelectionViewModel extends ChangeNotifier {
         .fold((failure) => setTermCondition(ApiResponse.error(failure.message)),
             (data) async {
       setTermCondition(ApiResponse.completed(data));
+      filteredCountryCodeList = data!.data;
     });
+    notifyListeners();
+  }
+
+  void searchCountry(String query) {
+    var countryCodeList = countryCode.data!.data;
+    filteredCountryCodeList = countryCodeList
+        .where((item) => item.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
     notifyListeners();
   }
 }

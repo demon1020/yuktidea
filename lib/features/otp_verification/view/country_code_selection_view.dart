@@ -1,7 +1,6 @@
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yuktidea/core.dart';
-import 'package:yuktidea/features/otp_verification/model/country_code_model.dart';
 import 'package:yuktidea/features/otp_verification/view_model/country_code_selection_view_model.dart';
 import 'package:yuktidea/utils/config/size_config.dart';
 
@@ -36,7 +35,7 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
           case Status.error:
             return AppErrorWidget(message: viewModel.countryCode.message!);
           case Status.completed:
-            return buildCountryCodeView(viewModel.countryCode.data!.data);
+            return buildCountryCodeView(viewModel);
           default:
             return AppErrorWidget();
         }
@@ -44,7 +43,8 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
     );
   }
 
-  Scaffold buildCountryCodeView(List<CountryData> data) {
+  Scaffold buildCountryCodeView(CountryCodeSelectionViewModel viewModel) {
+    var data = viewModel.countryCode.data!.data;
     return Scaffold(
       appBar: NeumorphicAppBar(
         leading: FractionallySizedBox(
@@ -84,6 +84,7 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
               ),
               SizedBox(height: 20.h),
               TextFormField(
+                onChanged: (query) => viewModel.searchCountry(query),
                 decoration: InputDecoration(
                   filled: true,
                   prefixIcon: Icon(Icons.search),
@@ -96,14 +97,14 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
               ),
               SizedBox(height: 20.h),
               ListView.separated(
-                itemCount: data.length,
+                itemCount: viewModel.filteredCountryCodeList.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 separatorBuilder: (context, index) {
                   return Divider();
                 },
                 itemBuilder: (context, index) {
-                  var item = data[index];
+                  var item = viewModel.filteredCountryCodeList[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, RoutesName.authView,
