@@ -17,7 +17,7 @@ class AuthViewModel extends ChangeNotifier {
     var response = await _myRepo.getOtp(formData);
     response.fold((failure) {
       setResponse(ApiResponse.error(failure.message));
-      Utils.toastMessage(failure.message);
+      Utils.flushBar(failure.message, status: MessageStatus.failure);
     }, (data) async {
       setResponse(ApiResponse.completed(data));
       Utils.toastMessage(data.message);
@@ -31,18 +31,20 @@ class AuthViewModel extends ChangeNotifier {
     message = "";
 
     if (value == null || value.isEmpty) {
-      return message = 'Enter mobile number';
+      message = 'Enter mobile number';
+    } else if (value.length < 10) {
+      message = 'Mobile number must have 10 digits';
+    } else if (value.length > 10) {
+      message = 'Mobile number must have 10 digits';
+    } else if (!Validator.validateMobile(value)) {
+      message = 'Enter a valid mobile number';
     }
-    if (value.length < 10) {
-      return message = 'Mobile number must have 10 digits';
+    if (message.isEmpty) {
+      notifyListeners();
+      return true;
+    } else {
+      notifyListeners();
+      return false;
     }
-    if (value.length > 10) {
-      return message = 'Mobile number must have 10 digits';
-    }
-    if (!Validator.validateMobile(value)) {
-      return message = 'Enter a valid mobile number';
-    }
-    notifyListeners();
-    return message = "";
   }
 }

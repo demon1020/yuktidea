@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yuktidea/features/otp_verification/model/country_code_model.dart';
@@ -5,6 +6,7 @@ import 'package:yuktidea/features/otp_verification/view_model/auth_view_model.da
 import 'package:yuktidea/utils/config/size_config.dart';
 
 import '../../../core.dart';
+import '../../../widgets/app_neumorphic_button.dart';
 
 class AuthView extends StatefulWidget {
   final CountryData country;
@@ -16,7 +18,6 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController phoneController = TextEditingController();
 
   @override
@@ -49,6 +50,7 @@ class _AuthViewState extends State<AuthView> {
           ),
           body: Container(
             height: SizeConfig.screenHeight,
+            width: SizeConfig.screenWidth,
             margin: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
             child: SingleChildScrollView(
               child: Column(
@@ -73,54 +75,41 @@ class _AuthViewState extends State<AuthView> {
                     ),
                   ),
                   SizedBox(height: 100.h),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SvgPicture.network(
-                          height: 30.h,
-                          width: 30.h,
-                          widget.country.flag,
-                        ),
-                        SizedBox(width: 10.h),
-                        Text(
-                          widget.country.telCode,
-                          style: TextStyle(fontSize: 16.sp),
-                        ),
-                        SizedBox(width: 10.h),
-                        Flexible(
-                          child: TextFormField(
-                            controller: phoneController,
-                            autofocus: true,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: "9999999999",
-                              fillColor: AppColor.primaryLight.withOpacity(0.2),
-                              border: InputBorder.none,
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return viewModel.message =
-                                    'Enter mobile number';
-                              } else if (value.length < 10) {
-                                return viewModel.message =
-                                    'Mobile number must have 10 digits';
-                              } else if (value.length > 10) {
-                                return viewModel.message =
-                                    'Mobile number must have 10 digits';
-                              } else if (!Validator.validateMobile(value)) {
-                                return viewModel.message =
-                                    'Enter a valid mobile number';
-                              } else {}
-                              setState(() {});
-                            },
-                            onSaved: (value) => viewModel.phone = value!,
+                  Row(
+                    children: [
+                      SvgPicture.network(
+                        height: 30.h,
+                        width: 30.h,
+                        widget.country.flag,
+                      ),
+                      SizedBox(width: 15.h),
+                      Text(
+                        widget.country.telCode,
+                        style: TextStyle(
+                            fontSize: 18.sp, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(width: 15.h),
+                      Expanded(
+                        child: TextField(
+                          controller: phoneController,
+                          autofocus: true,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          style: TextStyle(fontSize: 17.sp),
+                          decoration: InputDecoration(
+                            hintText: "9999999999",
+                            fillColor: AppColor.primaryLight.withOpacity(0.2),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            errorText: null,
+                            error: null,
+                            errorStyle: null,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Divider(color: AppColor.lightGrey),
                   SizedBox(height: 10.h),
@@ -132,34 +121,18 @@ class _AuthViewState extends State<AuthView> {
                     ),
                   ),
                   SizedBox(height: 200.h),
-                  NeumorphicButton(
+                  AppNeumorphicButton(
+                    text: "Get OTP",
                     onPressed: () async {
-                      // viewModel.message =
-                      //     viewModel.validateLogin(phoneController.text);
-                      if (viewModel.message.isEmpty) {
+                      if (viewModel.validateLogin(phoneController.text)) {
                         await viewModel.getOtpFromServer(
                           {
-                            "tel_code": widget.country.code,
-                            "phone": phoneController.text,
+                            "tel_code": "+91", //widget.country.telCode,
+                            "phone": "8805066532" //phoneController.text,
                           },
                         );
-                      } else {
-                        Utils.toastMessage(viewModel.message);
                       }
                     },
-                    style: NeumorphicStyle(
-                      shape: NeumorphicShape.flat,
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(50),
-                      ),
-                    ),
-                    child: Text(
-                      'Get OTP',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                 ],
               ),
