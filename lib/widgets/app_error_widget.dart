@@ -10,9 +10,26 @@ class AppErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text(
-          message,
-          style: TextStyle(fontSize: 18.h),
+        child: Padding(
+          padding: EdgeInsets.all(20.h),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                height: 50.h,
+                width: 50.w,
+                "assets/images/placeholder/error.png",
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                textAlign: TextAlign.center,
+                message,
+                style: TextStyle(fontSize: 18.h, fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
         ),
       ),
     );

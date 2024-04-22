@@ -1,11 +1,12 @@
+import 'package:cached_svg_image/cached_svg_image.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yuktidea/core.dart';
 import 'package:yuktidea/features/otp_verification/view_model/country_code_selection_view_model.dart';
 import 'package:yuktidea/utils/config/size_config.dart';
 
 import '../../../widgets/app_error_widget.dart';
 import '../../../widgets/app_loading_widget.dart';
+import '../../../widgets/app_neumorphic_back_button.dart';
 
 class CountryCodeSelectionView extends StatefulWidget {
   CountryCodeSelectionView({super.key});
@@ -47,27 +48,7 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
     var data = viewModel.countryCode.data!.data;
     return Scaffold(
       appBar: NeumorphicAppBar(
-        leading: FractionallySizedBox(
-          heightFactor: 0.6,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(navigatorKey.currentContext!).pop();
-            },
-            child: Neumorphic(
-              style: NeumorphicStyle(
-                shape: NeumorphicShape.convex,
-                boxShape: NeumorphicBoxShape.circle(),
-                depth: 4,
-                intensity: 0.8,
-              ),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 25.h,
-              ),
-            ),
-          ),
-        ),
+        leading: AppNeumorphicBackButton(),
       ),
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
@@ -87,11 +68,15 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
                 onChanged: (query) => viewModel.searchCountry(query),
                 decoration: InputDecoration(
                   filled: true,
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: AppColor.primary,
+                  ),
                   hintText: "Search",
                   fillColor: AppColor.primaryLight.withOpacity(0.2),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               ),
@@ -114,8 +99,9 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
                       leading: SizedBox(
                         height: 30.h,
                         width: 30.w,
-                        child: SvgPicture.network(
-                          item.flag,
+                        child: CachedNetworkSvgImage(
+                          url: item.flag,
+                          loadinggif: 'assets/images/placeholder/no-image.png',
                         ),
                       ),
                       title: Text(item.name),

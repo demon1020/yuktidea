@@ -1,3 +1,5 @@
+import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
+
 import '/core.dart';
 
 enum Result { success, warning, error }
@@ -24,47 +26,82 @@ class Utils {
         gravity: ToastGravity.SNACKBAR);
   }
 
-  static void flushBarErrorMessage(String message, {int duration = 3}) {
+  static void flushBar(
+      {String? title,
+      required String message,
+      int duration = 3,
+      MessageStatus status = MessageStatus.General}) {
+    Color titleColor = _getColorForStatus(status);
+
     showFlushbar(
       context: navigatorKey.currentContext!,
       flushbar: Flushbar(
-        forwardAnimationCurve: Curves.decelerate,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        padding: const EdgeInsets.all(15),
+        title: title,
         message: message,
-        duration: Duration(seconds: duration),
-        borderRadius: BorderRadius.circular(8),
-        flushbarPosition: FlushbarPosition.TOP,
-        backgroundColor: Colors.red,
-        reverseAnimationCurve: Curves.easeInOut,
-        positionOffset: 20,
-        icon: const Icon(
-          Icons.error,
-          size: 28,
-          color: Colors.white,
+        messageColor: AppColor.white,
+        titleColor: titleColor,
+        backgroundColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(8.0),
+        margin: EdgeInsets.all(8.0),
+        duration: Duration(seconds: 2),
+        flushbarStyle: FlushbarStyle.FLOATING,
+        boxShadows: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 1,
+            spreadRadius: 1,
+            offset: Offset(0, 1),
+          ),
+        ],
+        backgroundGradient: LinearGradient(
+          colors: [
+            NeumorphicTheme.baseColor(navigatorKey.currentContext!),
+            NeumorphicTheme.variantColor(navigatorKey.currentContext!),
+          ],
         ),
+        isDismissible: true,
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+        reverseAnimationCurve: Curves.easeOut,
       )..show(navigatorKey.currentContext!),
     );
   }
 
-  static snackBar(String message,
-      {Result result = Result.success, int duration = 3}) {
-    Color getColor(result) {
-      if (result == Result.warning) {
-        return AppColor.primary;
-      }
-      if (result == Result.error) {
-        return AppColor.error;
-      }
-      return AppColor.primaryLight;
-    }
+  static Color _getColorForStatus(MessageStatus status) {
+    Map<MessageStatus, Color> colorMap = {
+      MessageStatus.General: AppColor.general,
+      MessageStatus.Success: AppColor.success,
+      MessageStatus.Failure: AppColor.failure,
+    };
 
-    return ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
-      SnackBar(
-        backgroundColor: getColor(result),
-        content: Text(message),
-        duration: Duration(seconds: duration),
-      ),
-    );
+    return colorMap[status] ?? Colors.grey; // Default color
   }
+
+  // static void startResendOTPTimer({
+  //   required Future<void> onResend,
+  //   int duration = 30,
+  // }) {
+  //   Timer? timer;
+  //   int seconds = duration;
+  //   bool isTimerRunning = true;
+  //
+  //   void startTimer() {
+  //     timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //       if (seconds > 0) {
+  //         seconds--;
+  //       } else {
+  //         isTimerRunning = false;
+  //         timer!.cancel();
+  //       }
+  //       if (!isTimerRunning) {
+  //         ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+  //           SnackBar(content: Text('Resend OTP')),
+  //         );
+  //         onResend;
+  //       }
+  //     });
+  //   }
+  //
+  //   startTimer();
+  // }
 }

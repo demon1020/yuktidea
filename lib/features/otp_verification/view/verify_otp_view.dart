@@ -1,8 +1,11 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:pinput/pinput.dart';
 import 'package:yuktidea/utils/config/size_config.dart';
+import 'package:yuktidea/widgets/app_neumorphic_button.dart';
 
 import '../../../core.dart';
+import '../../../widgets/app_neumorphic_back_button.dart';
 import '../view_model/verify_otp_view_model.dart';
 
 class VerifyOtpView extends StatefulWidget {
@@ -13,9 +16,16 @@ class VerifyOtpView extends StatefulWidget {
 }
 
 class _VerifyOtpViewState extends State<VerifyOtpView> {
+  late VerifyOtpViewModel viewModel;
   final pinController = TextEditingController();
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    viewModel = Provider.of<VerifyOtpViewModel>(context, listen: false);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -27,7 +37,6 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
   @override
   Widget build(BuildContext context) {
     const focusedBorderColor = Colors.white;
-    const fillColor = AppColor.primaryDark;
 
     final defaultPinTheme = PinTheme(
       width: 56,
@@ -45,32 +54,12 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
           (BuildContext context, VerifyOtpViewModel viewModel, Widget? child) {
         return Scaffold(
           appBar: NeumorphicAppBar(
-            leading: FractionallySizedBox(
-              heightFactor: 0.6,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Neumorphic(
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.convex,
-                    boxShape: NeumorphicBoxShape.circle(),
-                    depth: 4,
-                    intensity: 0.8,
-                  ),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 25.h,
-                  ),
-                ),
-              ),
-            ),
+            leading: AppNeumorphicBackButton(),
           ),
           body: Container(
             height: SizeConfig.screenHeight,
             width: SizeConfig.screenWidth,
-            // margin: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
+            margin: EdgeInsets.symmetric(horizontal: 20.h, vertical: 10.h),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -94,63 +83,37 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                     ),
                   ),
                   SizedBox(height: 100.h),
-                  Directionality(
-                    // Specify direction if desired
-                    textDirection: TextDirection.ltr,
-                    child: Pinput(
-                      autofocus: true,
-                      keyboardType: TextInputType.number,
-                      length: 4,
-                      controller: pinController,
-                      focusNode: focusNode,
-                      androidSmsAutofillMethod:
-                          AndroidSmsAutofillMethod.smsUserConsentApi,
-                      listenForMultipleSmsOnAndroid: true,
-                      defaultPinTheme: defaultPinTheme,
-                      // validator: (value) => provider.validateOtp(value),
-                      onClipboardFound: (value) {
-                        debugPrint('onClipboardFound: $value');
-                        // pinController.setText(value);
-                      },
-                      hapticFeedbackType: HapticFeedbackType.heavyImpact,
-                      onCompleted: (pin) {
-                        // log('onCompleted: $pin');
-                        // if (pin == provider.smsCode) {
-                        //   provider.isVerified = true;
-                        // } else {
-                        //   log('Wrong otp: $pin');
-                        // }
-                      },
-                      onChanged: (value) {
-                        // log('onChanged: $value');
-                      },
-                      cursor: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 9),
-                            width: 22,
-                            height: 1,
-                            color: focusedBorderColor,
-                          ),
-                        ],
-                      ),
-                      // focusedPinTheme: defaultPinTheme.copyWith(
-                      //   decoration: defaultPinTheme.decoration!.copyWith(
-                      //     borderRadius: BorderRadius.circular(8),
-                      //     // border: Border.all(color: focusedBorderColor),
-                      //   ),
-                      // ),
-                      // submittedPinTheme: defaultPinTheme.copyWith(
-                      //   decoration: defaultPinTheme.decoration!.copyWith(
-                      //     color: fillColor,
-                      //     borderRadius: BorderRadius.circular(19),
-                      //     // border: Border.all(color: focusedBorderColor),
-                      //   ),
-                      // ),
-                      errorPinTheme: defaultPinTheme.copyBorderWith(
-                        border: Border.all(color: Colors.redAccent),
-                      ),
+                  Pinput(
+                    autofocus: true,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    length: 4,
+                    controller: pinController,
+                    focusNode: focusNode,
+                    androidSmsAutofillMethod:
+                        AndroidSmsAutofillMethod.smsUserConsentApi,
+                    listenForMultipleSmsOnAndroid: true,
+                    defaultPinTheme: defaultPinTheme,
+                    hapticFeedbackType: HapticFeedbackType.heavyImpact,
+                    onChanged: (v) => viewModel.setMessage(""),
+                    cursor: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 9),
+                          width: 22,
+                          height: 1,
+                          color: focusedBorderColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Visibility(
+                    visible: viewModel.message.isNotEmpty,
+                    child: Text(
+                      viewModel.message,
+                      style: TextStyle(color: AppColor.failure, fontSize: 15.h),
                     ),
                   ),
                   SizedBox(height: 50.h),
@@ -162,43 +125,55 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                     ),
                   ),
                   SizedBox(height: 20.h),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Resend OTP",
-                      style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.primary),
+                  Visibility(
+                    visible: viewModel.timerDuration == 0 ? true : false,
+                    replacement: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Resending OPT in ",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${viewModel.timerDuration} seconds",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.primary,
+                            ),
+                          )
+                        ],
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    child: TextButton(
+                      onPressed: () async {
+                        await viewModel
+                            .resendOtpFromServer({"phone": "+918805066532"});
+                      },
+                      child: Text(
+                        "Resend OTP",
+                        style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.primary),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 200.h),
-                  NeumorphicButton(
+                  SizedBox(height: 150.h),
+                  AppNeumorphicButton(
+                    text: "Verify",
                     onPressed: () async {
-                      if (viewModel.message.isEmpty) {
-                        await viewModel.verifyOtpFromServer(
-                          {
-                            "code": pinController.text,
-                            "phone": "+918805066532",
-                          },
-                        );
-                      } else {
-                        Utils.toastMessage(viewModel.message);
-                      }
+                      await viewModel.verifyOtpFromServer(
+                        {
+                          "code": pinController.text,
+                          "phone": "+918805066532",
+                        },
+                      );
                     },
-                    style: NeumorphicStyle(
-                      shape: NeumorphicShape.flat,
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(50),
-                      ),
-                    ),
-                    child: Text(
-                      'Verify',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ),
                 ],
               ),

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 class AppException implements Exception {
   final int statusCode;
   final String message;
+  final String? title;
 
-  AppException(this.statusCode, this.message);
+  AppException(this.statusCode, this.message, {this.title});
 }
 
 class SessionExpiry extends AppException implements Exception {
@@ -12,21 +15,6 @@ class SessionExpiry extends AppException implements Exception {
 
 class AccessTokenExpiry extends AppException implements Exception {
   AccessTokenExpiry({int? statusCode, String? message})
-      : super(statusCode!, message!);
-}
-
-class ServerValidation extends AppException {
-  ServerValidation({int? statusCode, String? message})
-      : super(statusCode!, message!);
-}
-
-class UserResigned extends AppException {
-  UserResigned({int? statusCode, String? message})
-      : super(statusCode!, message!);
-}
-
-class AppVersionUpdate extends AppException {
-  AppVersionUpdate({int? statusCode, String? message})
       : super(statusCode!, message!);
 }
 
@@ -40,10 +28,10 @@ class ForbiddenError extends AppException {
       : super(statusCode = 401, message = "The access is forbidden.");
 }
 
-class TokenAuthenticationError extends AppException {
-  TokenAuthenticationError({int? statusCode, String? message})
-      : super(statusCode = 0,
-            message = "Could not authenticate token. Please Retry");
+class BadRequestError extends AppException {
+  BadRequestError({int? statusCode, String? title, String? message})
+      : super(statusCode ?? HttpStatus.badRequest, message ?? "Bad Request.",
+            title: title);
 }
 
 class HandshakeError extends AppException {

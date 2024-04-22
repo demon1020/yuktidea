@@ -11,4 +11,13 @@ class OtpVerificationRepository extends ChangeNotifier {
       body: formData,
     );
   }
+
+  Future<dynamic> resendOtp(Map<String, String> formData) async {
+    return await _apiServices.callPostAPIForm(
+      AppUrl.resendOtp,
+      {},
+      Parser.parseGetOtpResponse,
+      body: formData,
+    );
+  }
 }

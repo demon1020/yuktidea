@@ -12,19 +12,17 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  cached_network_image: ^3.3.1
+  cached_svg_image: ^0.0.4
   provider: ^6.1.2
   shared_preferences: ^2.2.3
-  connectivity_plus: ^6.0.2
   fluttertoast: ^8.2.5
   http: ^1.2.1
   another_flushbar: ^1.12.30
   dartz: ^0.10.1
-  skeletonizer: ^1.1.1
   intl: ^0.19.0
   flutter_neumorphic_plus: ^3.3.0
   carousel_slider: ^4.2.1
-  flutter_svg: ^2.0.10+1
+  flutter_svg:
   pinput: ^4.0.0
   flutter_html: ^3.0.0-beta.2
   loading_animation_widget: ^1.2.1
@@ -40,6 +38,7 @@ flutter:
   assets:
    - assets/
    - assets/images/
+   - assets/images/placeholder/
    - assets/icons/
 
   fonts:

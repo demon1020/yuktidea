@@ -1,5 +1,5 @@
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:yuktidea/features/home/view_model/home_view_model.dart';
+import 'package:yuktidea/widgets/app_neumorphic_button.dart';
 
 import '../../../core.dart';
 import '../../../utils/config/size_config.dart';
@@ -17,7 +17,6 @@ class _HomeViewState extends State<HomeView> {
     return Consumer<HomeViewModel>(
       builder: (BuildContext context, HomeViewModel viewModel, Widget? child) {
         return Scaffold(
-          appBar: AppBar(),
           body: Container(
             alignment: Alignment.center,
             height: SizeConfig.screenHeight,
@@ -36,40 +35,14 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 SizedBox(height: 50.h),
-                NeumorphicButton(
+                AppNeumorphicButton(
+                  text: "Logout",
                   onPressed: () => viewModel.logout(),
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.flat,
-                    boxShape: NeumorphicBoxShape.roundRect(
-                      BorderRadius.circular(50),
-                    ),
-                  ),
-                  child: Text(
-                    'Logout',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.primary,
-                    ),
-                  ),
                 ),
                 SizedBox(height: 30.h),
-                NeumorphicButton(
+                AppNeumorphicButton(
+                  text: "Delete User",
                   onPressed: () => viewModel.delete(),
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.flat,
-                    boxShape: NeumorphicBoxShape.roundRect(
-                      BorderRadius.circular(50),
-                    ),
-                  ),
-                  child: Text(
-                    'Delete User',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.primary,
-                    ),
-                  ),
                 ),
               ],
             ),

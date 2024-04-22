@@ -2,11 +2,15 @@ import 'package:yuktidea/core.dart';
 import 'package:yuktidea/features/otp_verification/model/get_otp_model.dart';
 import 'package:yuktidea/features/otp_verification/repository/auth_repository.dart';
 
-class AuthViewModel extends ChangeNotifier {
+class AuthViewModel with ChangeNotifier {
   final _myRepo = AuthRepository();
   ApiResponse<GetOtp> getOtp = ApiResponse.loading();
   String phone = "";
   String message = "";
+
+  init() async {
+    await _myRepo.initialiseUser();
+  }
 
   setResponse(ApiResponse<GetOtp> response) {
     getOtp = response;
@@ -17,12 +21,21 @@ class AuthViewModel extends ChangeNotifier {
     var response = await _myRepo.getOtp(formData);
     response.fold((failure) {
       setResponse(ApiResponse.error(failure.message));
-      Utils.flushBar(failure.message, status: MessageStatus.failure);
+      Utils.flushBar(
+        title: failure.title,
+        message: failure.message,
+        status: MessageStatus.Failure,
+      );
     }, (data) async {
       setResponse(ApiResponse.completed(data));
-      Utils.toastMessage(data.message);
+
       Navigator.pushNamed(
           navigatorKey.currentContext!, RoutesName.verifyOtpView);
+      Utils.flushBar(
+        title: MessageStatus.Success.name,
+        message: data.message,
+        status: MessageStatus.Success,
+      );
     });
     notifyListeners();
   }

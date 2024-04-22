@@ -17,4 +17,19 @@ class SharedPreferencesService {
     _preferences = await SharedPreferences.getInstance();
     await _preferences!.remove('token');
   }
+
+  Future<void> saveUser(int user) async {
+    _preferences = await SharedPreferences.getInstance();
+    await _preferences!.setInt('user', user);
+  }
+
+  Future<int?> getUser() async {
+    _preferences = await SharedPreferences.getInstance();
+    return _preferences!.getInt('user');
+  }
+
+  Future<void> clearUser() async {
+    _preferences = await SharedPreferences.getInstance();
+    await _preferences!.remove('user');
+  }
 }

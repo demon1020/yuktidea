@@ -3,6 +3,7 @@ import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:yuktidea/core.dart';
 import 'package:yuktidea/utils/config/size_config.dart';
 
+import '../../../data/service/shared_preference_service.dart';
 import '../../../resources/asset_constants.dart';
 
 class StartupView extends StatelessWidget {
@@ -102,7 +103,11 @@ class StartupView extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     GestureDetector(
-                                      onTap: () {
+                                      onTap: () async {
+                                        final SharedPreferencesService prefs =
+                                            SharedPreferencesService();
+                                        await prefs
+                                            .saveUser(UserType.student.index);
                                         Navigator.pushNamed(
                                             context,
                                             RoutesName
@@ -125,7 +130,11 @@ class StartupView extends StatelessWidget {
                                     ),
                                     SizedBox(width: 25.w),
                                     GestureDetector(
-                                      onTap: () {
+                                      onTap: () async {
+                                        final SharedPreferencesService prefs =
+                                            SharedPreferencesService();
+                                        await prefs.saveUser(
+                                            UserType.counsellor.index);
                                         Navigator.pushNamed(
                                             context,
                                             RoutesName
@@ -198,14 +207,17 @@ class StartupView extends StatelessWidget {
       style: NeumorphicStyle(
         depth: 7,
         intensity: 0.8,
-        border: NeumorphicBorder(width: 10.h),
+        border: NeumorphicBorder(width: 15.h, isEnabled: true),
       ),
       child: SizedBox(
         width: 200.w,
         height: 180.h,
-        child: Image(
-          fit: BoxFit.cover,
-          image: AssetImage(imagePath),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.h),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

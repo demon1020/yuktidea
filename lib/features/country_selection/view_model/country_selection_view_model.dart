@@ -42,20 +42,28 @@ class CountrySelectionViewModel with ChangeNotifier {
   Future selectCountryApi(Map<String, String> formData) async {
     setSelectCountryResponse(ApiResponse.loading());
     var response = await _myRepo.selectCountry(formData);
-    response.fold(
-        (failure) =>
-            setSelectCountryResponse(ApiResponse.error(failure.message)),
-        (data) async {
+    response.fold((failure) {
+      setSelectCountryResponse(ApiResponse.error(failure.message));
+      Utils.flushBar(
+        title: MessageStatus.Failure.name,
+        message: failure.message,
+        status: MessageStatus.Failure,
+      );
+    }, (data) async {
       setSelectCountryResponse(ApiResponse.completed(data));
-      Utils.snackBar("Country selected : ${data.data.selectedCountry}");
-      Utils.toastMessage(data.message);
 
       Navigator.pushNamedAndRemoveUntil(
         navigatorKey.currentContext!,
         RoutesName.homeView,
         (route) => false,
       );
+      Utils.flushBar(
+        title: MessageStatus.Success.name,
+        message: data.message,
+        status: MessageStatus.Success,
+      );
     });
+
     notifyListeners();
   }
 }

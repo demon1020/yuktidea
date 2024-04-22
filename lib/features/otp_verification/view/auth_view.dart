@@ -6,6 +6,7 @@ import 'package:yuktidea/features/otp_verification/view_model/auth_view_model.da
 import 'package:yuktidea/utils/config/size_config.dart';
 
 import '../../../core.dart';
+import '../../../widgets/app_neumorphic_back_button.dart';
 import '../../../widgets/app_neumorphic_button.dart';
 
 class AuthView extends StatefulWidget {
@@ -21,32 +22,27 @@ class _AuthViewState extends State<AuthView> {
   TextEditingController phoneController = TextEditingController();
 
   @override
+  void dispose() {
+    phoneController.text = "";
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    AuthViewModel viewModel =
+        Provider.of<AuthViewModel>(context, listen: false);
+    viewModel.init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<AuthViewModel>(
       builder: (BuildContext context, AuthViewModel viewModel, Widget? child) {
         return Scaffold(
           appBar: NeumorphicAppBar(
-            leading: FractionallySizedBox(
-              heightFactor: 0.6,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(navigatorKey.currentContext!).pop();
-                },
-                child: Neumorphic(
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.convex,
-                    boxShape: NeumorphicBoxShape.circle(),
-                    depth: 4,
-                    intensity: 0.8,
-                  ),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 25.h,
-                  ),
-                ),
-              ),
-            ),
+            leading: AppNeumorphicBackButton(),
           ),
           body: Container(
             height: SizeConfig.screenHeight,

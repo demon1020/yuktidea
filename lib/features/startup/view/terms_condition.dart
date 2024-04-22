@@ -52,7 +52,7 @@ class _TermsConditionViewState extends State<TermsConditionView> {
         automaticallyImplyLeading: false,
         actions: [
           FractionallySizedBox(
-            heightFactor: 0.6,
+            heightFactor: 0.8,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();

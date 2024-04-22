@@ -1,21 +1,37 @@
-// import '/core.dart';
-//
-// class AppTheme {
-//   static ThemeData get lightTheme => _lightThemeData;
-//   static ThemeData get darkTheme => _darkThemeData;
-//
-//   static final _lightThemeData = _getThemeData(AppColor.primary);
-//   static final _darkThemeData = _getThemeData(AppColor.primaryDark);
-//
-//   static ThemeData _getThemeData(MaterialColor color) {
-//     return ThemeData(
-//       useMaterial3: true,
-//       colorSchemeSeed: color,
-//       // primarySwatch: color,
-//       fontFamily: 'Metropolis',
-//       appBarTheme: const AppBarTheme(
-//         elevation: 1,
-//       ),
-//     );
-//   }
-// }
+import '../../core.dart';
+
+class AppTheme {
+  static NeumorphicThemeData getLightTheme() {
+    return NeumorphicThemeData(
+      baseColor: AppColor.primaryLight,
+      lightSource: LightSource.topLeft,
+      depth: 10,
+      textTheme: TextTheme(
+        bodyLarge: TextStyle(
+          color: Colors.black,
+        ),
+        bodySmall: TextStyle(
+          color: Colors.black,
+        ),
+        bodyMedium: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+
+  static NeumorphicThemeData getDarkTheme() {
+    return NeumorphicThemeData(
+      baseColor: AppColor.primaryDark,
+      lightSource: LightSource.bottom,
+      depth: 1,
+      intensity: 0.85,
+      shadowLightColor: Colors.grey.withOpacity(0.5),
+      appBarTheme: NeumorphicAppBarThemeData(
+        iconTheme: IconThemeData(
+          color: AppColor.white,
+        ),
+      ),
+    );
+  }
+}

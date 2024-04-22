@@ -2,10 +2,12 @@ import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:yuktidea/features/country_selection/model/country.dart';
 import 'package:yuktidea/features/country_selection/view_model/country_selection_view_model.dart';
 import 'package:yuktidea/utils/config/size_config.dart';
+import 'package:yuktidea/widgets/app_neumorphic_button.dart';
 
 import '../../../core.dart';
 import '../../../widgets/app_error_widget.dart';
 import '../../../widgets/app_loading_widget.dart';
+import '../../../widgets/app_neumorphic_back_button.dart';
 
 class CountrySelectionView extends StatefulWidget {
   const CountrySelectionView({super.key});
@@ -37,8 +39,7 @@ class _CountrySelectionViewState extends State<CountrySelectionView> {
             return AppLoadingWidget();
           case Status.error:
             return AppErrorWidget(
-                message: viewModel.selectCountry.data?.message ??
-                    "Something Went Wrong");
+                message: viewModel.selectCountry.message.toString());
           case Status.completed:
             return buildCountrySelectionView(viewModel);
           default:
@@ -51,27 +52,7 @@ class _CountrySelectionViewState extends State<CountrySelectionView> {
   Scaffold buildCountrySelectionView(CountrySelectionViewModel viewModel) {
     return Scaffold(
       appBar: NeumorphicAppBar(
-        leading: FractionallySizedBox(
-          heightFactor: 0.6,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Neumorphic(
-              style: NeumorphicStyle(
-                shape: NeumorphicShape.convex,
-                boxShape: NeumorphicBoxShape.circle(),
-                depth: 4,
-                intensity: 0.8,
-              ),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-                size: 25.h,
-              ),
-            ),
-          ),
-        ),
+        leading: AppNeumorphicBackButton(),
       ),
       body: SizedBox(
         height: SizeConfig.screenHeight,
@@ -102,24 +83,20 @@ class _CountrySelectionViewState extends State<CountrySelectionView> {
               countries: viewModel.selectCountry.data!.data.countries,
             ),
             SizedBox(height: 20.h),
-            NeumorphicButton(
+            AppNeumorphicButton(
+              text: "Proceed",
               onPressed: () async {
-                await viewModel.selectCountryApi(
-                    {"country_id": viewModel.country!.id.toString()});
+                if (viewModel.country == null) {
+                  Utils.flushBar(
+                    title: "Select Country",
+                    message: 'Please select a country',
+                  );
+                } else {
+                  var res = await viewModel.selectCountryApi(
+                    {"country_id": viewModel.country!.id.toString()},
+                  );
+                }
               },
-              style: NeumorphicStyle(
-                shape: NeumorphicShape.flat,
-                boxShape: NeumorphicBoxShape.roundRect(
-                  BorderRadius.circular(50),
-                ),
-              ),
-              child: Text(
-                'Proceed',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
             ),
             SizedBox(height: 50.h),
             Text(
