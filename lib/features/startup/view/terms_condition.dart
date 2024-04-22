@@ -1,14 +1,8 @@
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:yuktidea/features/startup/model/term_condition_model.dart';
 import 'package:yuktidea/features/startup/view_model/term_condition_view_model.dart';
-import 'package:yuktidea/utils/config/size_config.dart';
 
 import '../../../core.dart';
-import '../../../utils/helper/datetime_helper.dart';
-import '../../../widgets/app_error_widget.dart';
-import '../../../widgets/app_loading_widget.dart';
 
 class TermsConditionView extends StatefulWidget {
   const TermsConditionView({super.key});

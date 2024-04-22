@@ -1,8 +1,6 @@
 import 'package:yuktidea/features/home/view_model/home_view_model.dart';
-import 'package:yuktidea/widgets/app_neumorphic_button.dart';
 
 import '../../../core.dart';
-import '../../../utils/config/size_config.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

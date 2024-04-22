@@ -1,5 +1,4 @@
 import '../../../core.dart';
-import '../../../data/service/shared_preference_service.dart';
 
 class AuthRepository extends ChangeNotifier {
   UserType userType = UserType.student;

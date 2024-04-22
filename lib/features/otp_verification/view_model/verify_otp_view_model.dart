@@ -2,8 +2,6 @@ import 'package:yuktidea/core.dart';
 import 'package:yuktidea/features/otp_verification/model/verify_otp_model.dart';
 import 'package:yuktidea/features/otp_verification/repository/otp_verification_repository.dart';
 
-import '../../../data/service/shared_preference_service.dart';
-import '../../../utils/helper/timer_helper.dart';
 import '../model/get_otp_model.dart';
 
 class VerifyOtpViewModel with ChangeNotifier {

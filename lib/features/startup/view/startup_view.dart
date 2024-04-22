@@ -1,10 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:yuktidea/core.dart';
-import 'package:yuktidea/utils/config/size_config.dart';
-
-import '../../../data/service/shared_preference_service.dart';
-import '../../../resources/asset_constants.dart';
 
 class StartupView extends StatelessWidget {
   StartupView({super.key});

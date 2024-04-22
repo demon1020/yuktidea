@@ -1,12 +1,6 @@
 import 'package:cached_svg_image/cached_svg_image.dart';
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:yuktidea/core.dart';
 import 'package:yuktidea/features/otp_verification/view_model/country_code_selection_view_model.dart';
-import 'package:yuktidea/utils/config/size_config.dart';
-
-import '../../../widgets/app_error_widget.dart';
-import '../../../widgets/app_loading_widget.dart';
-import '../../../widgets/app_neumorphic_back_button.dart';
 
 class CountryCodeSelectionView extends StatefulWidget {
   CountryCodeSelectionView({super.key});

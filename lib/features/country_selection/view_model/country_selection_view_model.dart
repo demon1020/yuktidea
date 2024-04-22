@@ -1,6 +1,5 @@
 import 'package:yuktidea/core.dart';
 
-import '../../../data/service/shared_preference_service.dart';
 import '../model/country.dart';
 import '../model/selected_country.dart';
 import '../repository/country_selection_repository.dart';
