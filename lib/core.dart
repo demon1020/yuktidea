@@ -11,8 +11,9 @@ export 'package:flutter/material.dart';
 export 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:fluttertoast/fluttertoast.dart';
-export 'package:pinput/pinput.dart';
 //External Packages
+export 'package:loading_animation_widget/loading_animation_widget.dart';
+export 'package:pinput/pinput.dart';
 export 'package:provider/provider.dart';
 export 'package:provider/single_child_widget.dart';
 export 'package:shared_preferences/shared_preferences.dart';
