@@ -1,13 +1,8 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:yuktidea/features/otp_verification/model/country_code_model.dart';
 import 'package:yuktidea/features/otp_verification/view_model/auth_view_model.dart';
-import 'package:yuktidea/utils/config/size_config.dart';
 
 import '../../../core.dart';
-import '../../../widgets/app_neumorphic_back_button.dart';
-import '../../../widgets/app_neumorphic_button.dart';
 
 class AuthView extends StatefulWidget {
   final CountryData country;
@@ -121,10 +116,12 @@ class _AuthViewState extends State<AuthView> {
                     text: "Get OTP",
                     onPressed: () async {
                       if (viewModel.validateLogin(phoneController.text)) {
+                        viewModel.phone =
+                            "${widget.country.telCode}${phoneController.text}";
                         await viewModel.getOtpFromServer(
                           {
-                            "tel_code": "+91", //widget.country.telCode,
-                            "phone": "8805066532" //phoneController.text,
+                            "tel_code": widget.country.telCode,
+                            "phone": phoneController.text,
                           },
                         );
                       }

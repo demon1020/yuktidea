@@ -35,7 +35,8 @@ class Routes {
 
       case RoutesName.verifyOtpView:
         return MaterialPageRoute(
-          builder: (BuildContext context) => const VerifyOtpView(),
+          builder: (BuildContext context) =>
+              VerifyOtpView(phone: settings.arguments as String),
         );
 
       case RoutesName.countrySelectionView:

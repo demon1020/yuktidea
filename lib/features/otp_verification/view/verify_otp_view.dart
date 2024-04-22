@@ -1,15 +1,12 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-import 'package:pinput/pinput.dart';
-import 'package:yuktidea/utils/config/size_config.dart';
-import 'package:yuktidea/widgets/app_neumorphic_button.dart';
 
 import '../../../core.dart';
-import '../../../widgets/app_neumorphic_back_button.dart';
 import '../view_model/verify_otp_view_model.dart';
 
 class VerifyOtpView extends StatefulWidget {
-  const VerifyOtpView({super.key});
+  final String phone;
+
+  const VerifyOtpView({super.key, required this.phone});
 
   @override
   State<VerifyOtpView> createState() => _VerifyOtpViewState();
@@ -152,7 +149,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                     child: TextButton(
                       onPressed: () async {
                         await viewModel
-                            .resendOtpFromServer({"phone": "+918805066532"});
+                            .resendOtpFromServer({"phone": widget.phone});
                       },
                       child: Text(
                         "Resend OTP",
@@ -170,7 +167,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                       await viewModel.verifyOtpFromServer(
                         {
                           "code": pinController.text,
-                          "phone": "+918805066532",
+                          "phone": widget.phone,
                         },
                       );
                     },

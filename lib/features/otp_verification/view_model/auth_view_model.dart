@@ -30,7 +30,8 @@ class AuthViewModel with ChangeNotifier {
       setResponse(ApiResponse.completed(data));
 
       Navigator.pushNamed(
-          navigatorKey.currentContext!, RoutesName.verifyOtpView);
+          navigatorKey.currentContext!, RoutesName.verifyOtpView,
+          arguments: phone);
       Utils.flushBar(
         title: MessageStatus.Success.name,
         message: data.message,
