@@ -32,4 +32,19 @@ class SharedPreferencesService {
     _preferences = await SharedPreferences.getInstance();
     await _preferences!.remove('user');
   }
+
+  Future<void> saveLogin(bool isLogin) async {
+    _preferences = await SharedPreferences.getInstance();
+    await _preferences!.setBool('isLogin', isLogin);
+  }
+
+  Future<bool?> getLogin() async {
+    _preferences = await SharedPreferences.getInstance();
+    return _preferences!.getBool('isLogin');
+  }
+
+  Future<void> clearLogin() async {
+    _preferences = await SharedPreferences.getInstance();
+    await _preferences!.remove('isLogin');
+  }
 }

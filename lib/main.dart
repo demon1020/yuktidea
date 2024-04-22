@@ -1,7 +1,12 @@
 // import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 import '/core.dart';
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(
     MultiProvider(
       providers: Providers.getAllProviders(),

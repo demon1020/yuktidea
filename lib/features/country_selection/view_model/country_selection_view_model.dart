@@ -50,7 +50,7 @@ class CountrySelectionViewModel with ChangeNotifier {
       );
     }, (data) async {
       setSelectCountryResponse(ApiResponse.completed(data));
-
+      await saveLogin();
       Navigator.pushNamedAndRemoveUntil(
         navigatorKey.currentContext!,
         RoutesName.homeView,
@@ -64,5 +64,10 @@ class CountrySelectionViewModel with ChangeNotifier {
     });
 
     notifyListeners();
+  }
+
+  saveLogin() async {
+    final SharedPreferencesService prefs = SharedPreferencesService();
+    await prefs.saveLogin(true);
   }
 }

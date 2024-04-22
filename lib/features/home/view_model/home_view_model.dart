@@ -14,14 +14,25 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> logout() async {
     setResponse(ApiResponse.loading());
     var response = await _myRepo.logout();
-    response.fold((failure) => setResponse(ApiResponse.error(failure.message)),
-        (data) async {
+    response.fold((failure) {
+      setResponse(ApiResponse.error(failure.message));
+      Utils.flushBar(
+        status: MessageStatus.Failure,
+        title: MessageStatus.Failure.name,
+        message: failure.message,
+      );
+    }, (data) async {
       setResponse(ApiResponse.completed(data));
-      Utils.toastMessage(data.message);
+      await removeData();
       Navigator.pushNamedAndRemoveUntil(
         navigatorKey.currentContext!,
         RoutesName.startupView,
         (route) => false, // Removes all the previous routes
+      );
+      Utils.flushBar(
+        status: MessageStatus.Success,
+        title: MessageStatus.Success.name,
+        message: data.message,
       );
     });
     notifyListeners();
@@ -30,16 +41,36 @@ class HomeViewModel extends ChangeNotifier {
   Future<void> delete() async {
     setResponse(ApiResponse.loading());
     var response = await _myRepo.logout();
-    response.fold((failure) => setResponse(ApiResponse.error(failure.message)),
-        (data) async {
+    response.fold((failure) {
+      setResponse(ApiResponse.error(failure.message));
+      Utils.flushBar(
+        status: MessageStatus.Failure,
+        title: MessageStatus.Failure.name,
+        message: failure.message,
+      );
+    }, (data) async {
       setResponse(ApiResponse.completed(data));
-      Utils.toastMessage(data.message);
+      await removeData(deleteUser: true);
       Navigator.pushNamedAndRemoveUntil(
         navigatorKey.currentContext!,
         RoutesName.startupView,
         (route) => false, // Removes all the previous routes
       );
+      Utils.flushBar(
+        status: MessageStatus.Success,
+        title: MessageStatus.Success.name,
+        message: data.message,
+      );
     });
     notifyListeners();
+  }
+
+  Future<void> removeData({bool deleteUser = false}) async {
+    final SharedPreferencesService prefs = SharedPreferencesService();
+    await prefs.clearLogin();
+    if (deleteUser) {
+      await prefs.clearUser();
+      await prefs.clearToken();
+    }
   }
 }

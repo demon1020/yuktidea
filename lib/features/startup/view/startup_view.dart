@@ -1,7 +1,31 @@
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:yuktidea/core.dart';
 
-class StartupView extends StatelessWidget {
+class StartupView extends StatefulWidget {
   StartupView({super.key});
+
+  @override
+  State<StartupView> createState() => _StartupViewState();
+}
+
+class _StartupViewState extends State<StartupView> {
+  bool isLogin = false;
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  Future<void> init() async {
+    final SharedPreferencesService prefs = SharedPreferencesService();
+    isLogin = await prefs.getLogin() ?? false;
+    if (isLogin) {
+      Navigator.pushReplacementNamed(
+          navigatorKey.currentContext!, RoutesName.homeView);
+    }
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {
