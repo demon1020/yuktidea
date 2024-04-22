@@ -43,7 +43,9 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
         color: Colors.white,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        border: Border(
+          bottom: BorderSide(color: AppColor.white),
+        ),
       ),
     );
     return Consumer<VerifyOtpViewModel>(
@@ -81,7 +83,6 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                   ),
                   SizedBox(height: 100.h),
                   Pinput(
-                    autofocus: true,
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     length: 4,
@@ -93,17 +94,6 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                     defaultPinTheme: defaultPinTheme,
                     hapticFeedbackType: HapticFeedbackType.heavyImpact,
                     onChanged: (v) => viewModel.setMessage(""),
-                    cursor: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 9),
-                          width: 22,
-                          height: 1,
-                          color: focusedBorderColor,
-                        ),
-                      ],
-                    ),
                   ),
                   SizedBox(height: 10.h),
                   Visibility(
