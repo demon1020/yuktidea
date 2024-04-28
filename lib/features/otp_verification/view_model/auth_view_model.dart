@@ -10,6 +10,7 @@ class AuthViewModel with ChangeNotifier {
   String message = "";
 
   init() async {
+    phoneController.text = "";
     await _myRepo.initialiseUser();
   }
 

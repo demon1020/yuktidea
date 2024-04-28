@@ -76,20 +76,20 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
                 ),
               ),
               SizedBox(height: 20.h),
-              ListView.separated(
-                itemCount: viewModel.filteredCountryCodeList.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) {
-                  return Divider();
-                },
-                itemBuilder: (context, index) {
-                  var item = viewModel.filteredCountryCodeList[index];
-                  return viewModel.filteredCountryCodeList.isEmpty
-                      ? Center(
-                          child: Text('Country Not Found'),
-                        )
-                      : GestureDetector(
+              viewModel.filteredCountryCodeList.isEmpty
+                  ? Center(
+                      child: Text('Country Not Found'),
+                    )
+                  : ListView.separated(
+                      itemCount: viewModel.filteredCountryCodeList.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) {
+                        return Divider();
+                      },
+                      itemBuilder: (context, index) {
+                        var item = viewModel.filteredCountryCodeList[index];
+                        return GestureDetector(
                           onTap: () async {
                             viewModel.controller.clear();
                             Navigator.pushNamed(context, RoutesName.authView,
@@ -110,8 +110,8 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
                             trailing: Text(item.telCode),
                           ),
                         );
-                },
-              ),
+                      },
+                    ),
             ],
           ),
         ),

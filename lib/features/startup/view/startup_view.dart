@@ -97,7 +97,7 @@ class _StartupViewState extends State<StartupView> {
                     ),
                     child: SizedBox(
                       width: SizeConfig.screenWidth,
-                      height: SizeConfig.screenHeight / 2.3,
+                      height: SizeConfig.screenHeight / 2.2,
                       child: Padding(
                         padding: EdgeInsets.all(10.h),
                         child: Column(

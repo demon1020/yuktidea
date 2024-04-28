@@ -68,69 +68,71 @@ class _TermsConditionViewState extends State<TermsConditionView> {
           ),
         ],
       ),
-      body: Container(
-        height: SizeConfig.screenHeight,
-        width: SizeConfig.screenWidth,
-        margin: EdgeInsets.all(20.h),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SvgPicture.asset(
-                    "assets/icons/terms.svg",
-                    height: 70.h,
-                    width: 70.w,
-                    semanticsLabel: 'terms Logo',
-                  ),
-                  SizedBox(width: 20.h),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        data.title,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.primary,
+      body: SafeArea(
+        child: Container(
+          height: SizeConfig.screenHeight,
+          width: SizeConfig.screenWidth,
+          margin: EdgeInsets.all(20.h),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/icons/terms.svg",
+                      height: 70.h,
+                      width: 70.w,
+                      semanticsLabel: 'terms Logo',
+                    ),
+                    SizedBox(width: 20.h),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          data.title,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.primary,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 15.h),
-                      Text(
-                        DateTimeHelper.convertDateFormatToString(
-                                data.updatedAt.toString())
-                            .toString(),
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
+                        SizedBox(height: 15.h),
+                        Text(
+                          DateTimeHelper.convertDateFormatToString(
+                                  data.updatedAt.toString())
+                              .toString(),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Html(
-                data: data.content,
-                style: {
-                  "h1": Style(
-                    color: AppColor.primary,
-                    fontSize: FontSize.large,
-                    fontFamily: 'Metropolis',
-                  ),
-                  "p": Style(
-                    color: Colors.white,
-                    fontSize: FontSize.medium,
-                    fontFamily: 'Metropolis',
-                  ),
-                },
-              ),
-            ],
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                Html(
+                  data: data.content,
+                  style: {
+                    "h1": Style(
+                      color: AppColor.primary,
+                      fontSize: FontSize.large,
+                      fontFamily: 'Metropolis',
+                    ),
+                    "p": Style(
+                      color: Colors.white,
+                      fontSize: FontSize.medium,
+                      fontFamily: 'Metropolis',
+                    ),
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
