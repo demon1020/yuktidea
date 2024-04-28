@@ -9,6 +9,8 @@ class AppColor {
   static const Color white = Colors.white;
   static const Color error = Colors.redAccent;
   static const Color primary = Color(0xFFD9896A);
+  static const Color primaryButtonColor = Color(0xFFF9D3B4);
+  static const Color flushBarBgColor = Color(0xFF343739);
   static const Color success = Colors.greenAccent;
   static const Color failure = Colors.redAccent;
   static const Color general = Colors.orangeAccent;

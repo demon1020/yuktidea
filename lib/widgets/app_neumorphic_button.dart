@@ -48,10 +48,11 @@ class _AppNeumorphicButtonState extends State<AppNeumorphicButton> {
               boxShape: NeumorphicBoxShape.roundRect(
                 BorderRadius.circular(50),
               ),
-              intensity: _isPressed ? 1 : 0.5,
+              intensity: _isPressed ? 0.5 : 1,
+              depth: 2,
             ),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
+              margin: EdgeInsets.symmetric(horizontal: 50),
               alignment: Alignment.center,
               child: Text(
                 widget.text,
@@ -59,8 +60,8 @@ class _AppNeumorphicButtonState extends State<AppNeumorphicButton> {
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w400,
                   color: _isPressed
-                      ? AppColor.primary.withOpacity(0.7)
-                      : AppColor.primary.withGreen(400),
+                      ? AppColor.primaryButtonColor.withOpacity(0.5)
+                      : AppColor.primaryButtonColor,
                 ),
               ),
             ),

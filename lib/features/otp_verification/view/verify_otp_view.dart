@@ -13,24 +13,6 @@ class VerifyOtpView extends StatefulWidget {
 }
 
 class _VerifyOtpViewState extends State<VerifyOtpView> {
-  late VerifyOtpViewModel viewModel;
-  final pinController = TextEditingController();
-  final focusNode = FocusNode();
-  final formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    viewModel = Provider.of<VerifyOtpViewModel>(context, listen: false);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    pinController.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     const focusedBorderColor = Colors.white;
@@ -86,8 +68,8 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     length: 4,
-                    controller: pinController,
-                    focusNode: focusNode,
+                    controller: viewModel.pinController,
+                    focusNode: viewModel.focusNode,
                     androidSmsAutofillMethod:
                         AndroidSmsAutofillMethod.smsUserConsentApi,
                     listenForMultipleSmsOnAndroid: true,
@@ -156,7 +138,7 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                     onPressed: () async {
                       await viewModel.verifyOtpFromServer(
                         {
-                          "code": pinController.text,
+                          "code": viewModel.pinController.text,
                           "phone": widget.phone,
                         },
                       );

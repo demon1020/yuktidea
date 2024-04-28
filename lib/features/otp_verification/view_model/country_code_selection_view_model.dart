@@ -8,10 +8,15 @@ class CountryCodeSelectionViewModel extends ChangeNotifier {
   final CountryCodeSelectionRepository _myRepo =
       CountryCodeSelectionRepository();
   late List<CountryData> filteredCountryCodeList = [];
+  late List<CountryData> countryCodeList = [];
+  final TextEditingController controller = TextEditingController();
   ApiResponse<CountryCode> countryCode = ApiResponse.loading();
 
-  setTermCondition(ApiResponse<CountryCode> response) {
-    countryCode = response;
+  void setTermCondition(ApiResponse<CountryCode> response) =>
+      countryCode = response;
+  void setCountryList() {
+    filteredCountryCodeList = countryCodeList;
+    notifyListeners();
   }
 
   Future<void> fetchCountriesCode() async {
@@ -21,13 +26,13 @@ class CountryCodeSelectionViewModel extends ChangeNotifier {
         .fold((failure) => setTermCondition(ApiResponse.error(failure.message)),
             (data) async {
       setTermCondition(ApiResponse.completed(data));
+      countryCodeList = data!.data;
       filteredCountryCodeList = data!.data;
     });
     notifyListeners();
   }
 
   void searchCountry(String query) {
-    var countryCodeList = countryCode.data!.data;
     filteredCountryCodeList = countryCodeList
         .where((item) => item.name.toLowerCase().contains(query.toLowerCase()))
         .toList();

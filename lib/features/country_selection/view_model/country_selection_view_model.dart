@@ -31,8 +31,23 @@ class CountrySelectionViewModel with ChangeNotifier {
   Future<void> fetchCountries() async {
     setResponse(ApiResponse.loading());
     var response = await _myRepo.fetchCountries();
-    response.fold((failure) => setResponse(ApiResponse.error(failure.message)),
-        (data) async {
+    response.fold((failure) async {
+      if (failure is UserAlreadyRegistered) {
+        await saveLogin();
+        Navigator.pushNamedAndRemoveUntil(
+          navigatorKey.currentContext!,
+          RoutesName.homeView,
+          (route) => false,
+        );
+        Utils.flushBar(
+          title: MessageStatus.General.name,
+          message: failure.message,
+          status: MessageStatus.General,
+        );
+      } else {
+        setResponse(ApiResponse.error(failure.message));
+      }
+    }, (data) async {
       setResponse(ApiResponse.completed(data));
     });
     notifyListeners();

@@ -14,15 +14,6 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
-  TextEditingController phoneController = TextEditingController();
-
-  @override
-  void dispose() {
-    phoneController.text = "";
-    phoneController.dispose();
-    super.dispose();
-  }
-
   @override
   void initState() {
     AuthViewModel viewModel =
@@ -82,7 +73,7 @@ class _AuthViewState extends State<AuthView> {
                       SizedBox(width: 15.h),
                       Expanded(
                         child: TextField(
-                          controller: phoneController,
+                          controller: viewModel.phoneController,
                           autofocus: true,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -115,13 +106,14 @@ class _AuthViewState extends State<AuthView> {
                   AppNeumorphicButton(
                     text: "Get OTP",
                     onPressed: () async {
-                      if (viewModel.validateLogin(phoneController.text)) {
+                      if (viewModel
+                          .validateLogin(viewModel.phoneController.text)) {
                         viewModel.phone =
-                            "${widget.country.telCode}${phoneController.text}";
+                            "${widget.country.telCode}${viewModel.phoneController.text}";
                         await viewModel.getOtpFromServer(
                           {
                             "tel_code": widget.country.telCode,
-                            "phone": phoneController.text,
+                            "phone": viewModel.phoneController.text,
                           },
                         );
                       }

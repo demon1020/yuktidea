@@ -42,13 +42,10 @@ flutter_icons:
 
 flutter_native_splash:
   color: "#212426"
-  color_dark_android: "#212426"
-  color_dark_ios: "#212426"
   image: assets/images/logo.png
   android: true
   ios: true
-  android_gravity: fill
-  ios_content_mode: scaleAspectFill
+
 
 flutter:
   uses-material-design: true

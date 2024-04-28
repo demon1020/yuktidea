@@ -1,4 +1,5 @@
 // import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '/core.dart';
@@ -20,6 +21,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var style = SystemUiOverlayStyle.light.copyWith(
+      systemNavigationBarColor: AppColor.primaryDark,
+      statusBarColor: AppColor.primaryDark,
+    );
+    SystemChrome.setSystemUIOverlayStyle(style);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return OrientationBuilder(

@@ -59,6 +59,7 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
               ),
               SizedBox(height: 20.h),
               TextFormField(
+                controller: viewModel.controller,
                 onChanged: (query) => viewModel.searchCountry(query),
                 decoration: InputDecoration(
                   filled: true,
@@ -84,24 +85,31 @@ class _CountryCodeSelectionViewState extends State<CountryCodeSelectionView> {
                 },
                 itemBuilder: (context, index) {
                   var item = viewModel.filteredCountryCodeList[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, RoutesName.authView,
-                          arguments: item);
-                    },
-                    child: ListTile(
-                      leading: SizedBox(
-                        height: 30.h,
-                        width: 30.w,
-                        child: CachedNetworkSvgImage(
-                          url: item.flag,
-                          loadinggif: 'assets/images/placeholder/no-image.png',
-                        ),
-                      ),
-                      title: Text(item.name),
-                      trailing: Text(item.telCode),
-                    ),
-                  );
+                  return viewModel.filteredCountryCodeList.isEmpty
+                      ? Center(
+                          child: Text('Country Not Found'),
+                        )
+                      : GestureDetector(
+                          onTap: () async {
+                            viewModel.controller.clear();
+                            Navigator.pushNamed(context, RoutesName.authView,
+                                arguments: item);
+                            viewModel.setCountryList();
+                          },
+                          child: ListTile(
+                            leading: SizedBox(
+                              height: 30.h,
+                              width: 30.w,
+                              child: CachedNetworkSvgImage(
+                                url: item.flag,
+                                loadinggif:
+                                    'assets/images/placeholder/no-image.png',
+                              ),
+                            ),
+                            title: Text(item.name),
+                            trailing: Text(item.telCode),
+                          ),
+                        );
                 },
               ),
             ],

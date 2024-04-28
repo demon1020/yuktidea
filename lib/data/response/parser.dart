@@ -77,10 +77,21 @@ class Parser {
             );
             break;
           case 401:
-            return Left(ForbiddenError());
+            return Left(UnAuthorizedError());
             break;
           case 403:
-            return Left(UnAuthorizedError());
+            var result = jsonDecode(response.body);
+            if (result['data']['selected_country'] != null) {
+              return Left(
+                UserAlreadyRegistered(
+                  statusCode: 0,
+                  message:
+                      "User already associated with a country: ${result['data']['selected_country']}",
+                ),
+              );
+            } else {
+              return Left(ForbiddenError());
+            }
             break;
           case 404:
             return Left(ServerError(

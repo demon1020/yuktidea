@@ -4,6 +4,7 @@ import 'package:yuktidea/features/otp_verification/repository/auth_repository.da
 
 class AuthViewModel with ChangeNotifier {
   final _myRepo = AuthRepository();
+  late final TextEditingController phoneController = TextEditingController();
   ApiResponse<GetOtp> getOtp = ApiResponse.loading();
   String phone = "";
   String message = "";
@@ -12,9 +13,7 @@ class AuthViewModel with ChangeNotifier {
     await _myRepo.initialiseUser();
   }
 
-  setResponse(ApiResponse<GetOtp> response) {
-    getOtp = response;
-  }
+  setResponse(ApiResponse<GetOtp> response) => getOtp = response;
 
   Future<void> getOtpFromServer(Map<String, String> formData) async {
     setResponse(ApiResponse.loading());
@@ -28,7 +27,7 @@ class AuthViewModel with ChangeNotifier {
       );
     }, (data) async {
       setResponse(ApiResponse.completed(data));
-
+      phoneController.clear();
       Navigator.pushNamed(
           navigatorKey.currentContext!, RoutesName.verifyOtpView,
           arguments: phone);

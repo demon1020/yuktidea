@@ -1,13 +1,7 @@
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:yuktidea/features/country_selection/model/country.dart';
 import 'package:yuktidea/features/country_selection/view_model/country_selection_view_model.dart';
-import 'package:yuktidea/utils/config/size_config.dart';
-import 'package:yuktidea/widgets/app_neumorphic_button.dart';
 
 import '../../../core.dart';
-import '../../../widgets/app_error_widget.dart';
-import '../../../widgets/app_loading_widget.dart';
-import '../../../widgets/app_neumorphic_back_button.dart';
 
 class CountrySelectionView extends StatefulWidget {
   const CountrySelectionView({super.key});
@@ -38,8 +32,7 @@ class _CountrySelectionViewState extends State<CountrySelectionView> {
           case Status.loading:
             return AppLoadingWidget();
           case Status.error:
-            return AppErrorWidget(
-                message: viewModel.selectCountry.message.toString());
+            return AppErrorWidget(message: viewModel.selectCountry.message!);
           case Status.completed:
             return buildCountrySelectionView(viewModel);
           default:

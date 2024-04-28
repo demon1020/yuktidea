@@ -1,5 +1,3 @@
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-
 import '/core.dart';
 
 enum Result { success, warning, error }
@@ -40,7 +38,7 @@ class Utils {
         message: message,
         messageColor: AppColor.white,
         titleColor: titleColor,
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColor.flushBarBgColor,
         borderRadius: BorderRadius.circular(8.0),
         margin: EdgeInsets.all(8.0),
         duration: Duration(seconds: 2),
@@ -48,17 +46,11 @@ class Utils {
         boxShadows: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
-            blurRadius: 1,
-            spreadRadius: 1,
+            blurRadius: 5,
+            spreadRadius: 5,
             offset: Offset(0, 1),
           ),
         ],
-        backgroundGradient: LinearGradient(
-          colors: [
-            NeumorphicTheme.baseColor(navigatorKey.currentContext!),
-            NeumorphicTheme.variantColor(navigatorKey.currentContext!),
-          ],
-        ),
         isDismissible: true,
         dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
@@ -76,32 +68,4 @@ class Utils {
 
     return colorMap[status] ?? Colors.grey; // Default color
   }
-
-  // static void startResendOTPTimer({
-  //   required Future<void> onResend,
-  //   int duration = 30,
-  // }) {
-  //   Timer? timer;
-  //   int seconds = duration;
-  //   bool isTimerRunning = true;
-  //
-  //   void startTimer() {
-  //     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-  //       if (seconds > 0) {
-  //         seconds--;
-  //       } else {
-  //         isTimerRunning = false;
-  //         timer!.cancel();
-  //       }
-  //       if (!isTimerRunning) {
-  //         ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
-  //           SnackBar(content: Text('Resend OTP')),
-  //         );
-  //         onResend;
-  //       }
-  //     });
-  //   }
-  //
-  //   startTimer();
-  // }
 }

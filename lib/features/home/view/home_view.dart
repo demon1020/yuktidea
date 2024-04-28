@@ -11,6 +11,18 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  void init() async {
+    HomeViewModel viewModel =
+        Provider.of<HomeViewModel>(context, listen: false);
+    await viewModel.init();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (BuildContext context, HomeViewModel viewModel, Widget? child) {

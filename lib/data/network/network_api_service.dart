@@ -37,8 +37,9 @@ class NetworkApiService extends BaseApiServices {
       print('apiURL : $apiURL');
       print('headers : ${jsonEncode(headers)}');
       print('body : ${jsonEncode(body)}');
-      http.Response response =
-          await http.post(Uri.parse(apiURL), body: body).timeout(apiTimeOut);
+      http.Response response = await http
+          .post(Uri.parse(apiURL), body: body, headers: headers)
+          .timeout(apiTimeOut);
       if (response != null) {
         return Parser.parseResponse(response, callback);
       }

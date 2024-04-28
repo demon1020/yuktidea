@@ -6,7 +6,7 @@ import 'package:yuktidea/features/startup/view/startup_view.dart';
 
 import '../../features/country_selection/view/country_selection_view.dart';
 import '../../features/otp_verification/view/auth_view.dart';
-import '../../features/startup/view/terms_condition.dart';
+import '../../features/startup/view/terms_condition_view.dart';
 import '/core.dart';
 
 class Routes {

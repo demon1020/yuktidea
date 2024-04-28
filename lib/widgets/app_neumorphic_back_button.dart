@@ -1,4 +1,4 @@
-import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
+import 'package:yuktidea/core.dart';
 
 class AppNeumorphicBackButton extends StatelessWidget {
   const AppNeumorphicBackButton({super.key});
@@ -6,16 +6,50 @@ class AppNeumorphicBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      heightFactor: 0.8,
-      child: NeumorphicBackButton(
+      heightFactor: 0.65,
+      child: NeumorphicBackButtonWidget(
+        padding: EdgeInsets.only(left: 7),
         style: NeumorphicStyle(
           shape: NeumorphicShape.flat,
           boxShape: NeumorphicBoxShape.circle(),
-          depth: 10,
-          intensity: 0.9,
+          depth: 4,
+          intensity: 0.5,
+          shadowLightColor: AppColor.white,
           lightSource: LightSource.topLeft,
         ),
+        child: Icon(
+          Icons.arrow_back_ios,
+          size: 20.h,
+          weight: 10,
+        ),
       ),
+    );
+  }
+}
+
+class NeumorphicBackButtonWidget extends StatelessWidget {
+  final VoidCallback? onPressed;
+  final NeumorphicStyle? style;
+  final EdgeInsets? padding;
+  final Widget child;
+
+  const NeumorphicBackButtonWidget({
+    super.key,
+    this.onPressed,
+    this.style,
+    this.padding,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final nThemeIcons = NeumorphicTheme.of(context)!.current!.appBarTheme.icons;
+    return NeumorphicButton(
+      style: style,
+      padding: padding,
+      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+      onPressed: onPressed ?? () => Navigator.maybePop(context),
+      child: child,
     );
   }
 }

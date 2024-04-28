@@ -29,8 +29,7 @@ class _TermsConditionViewState extends State<TermsConditionView> {
           case Status.loading:
             return AppLoadingWidget();
           case Status.error:
-            return AppErrorWidget(
-                message: viewModel.termCondition.data!.message);
+            return AppErrorWidget(message: viewModel.termCondition.message!);
           case Status.completed:
             return buildTermConditionView(viewModel.termCondition.data!.data);
           default:
@@ -46,7 +45,7 @@ class _TermsConditionViewState extends State<TermsConditionView> {
         automaticallyImplyLeading: false,
         actions: [
           FractionallySizedBox(
-            heightFactor: 0.8,
+            heightFactor: 0.6,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
@@ -56,7 +55,8 @@ class _TermsConditionViewState extends State<TermsConditionView> {
                   shape: NeumorphicShape.convex,
                   boxShape: NeumorphicBoxShape.circle(),
                   depth: 4,
-                  intensity: 0.8,
+                  intensity: 0.6,
+                  shadowLightColor: AppColor.white,
                 ),
                 child: Icon(
                   Icons.close,

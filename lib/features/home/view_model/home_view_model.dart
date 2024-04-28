@@ -11,6 +11,10 @@ class HomeViewModel extends ChangeNotifier {
     userDeleteLogout = response;
   }
 
+  Future<void> init() async {
+    await _myRepo.initialiseToken();
+  }
+
   Future<void> logout() async {
     setResponse(ApiResponse.loading());
     var response = await _myRepo.logout();
@@ -40,7 +44,7 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<void> delete() async {
     setResponse(ApiResponse.loading());
-    var response = await _myRepo.logout();
+    var response = await _myRepo.deleteUser();
     response.fold((failure) {
       setResponse(ApiResponse.error(failure.message));
       Utils.flushBar(

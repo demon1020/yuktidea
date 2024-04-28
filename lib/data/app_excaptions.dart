@@ -25,11 +25,18 @@ class ServerError extends AppException {
 
 class ForbiddenError extends AppException {
   ForbiddenError({int? statusCode, String? message})
-      : super(statusCode = 401, message = "The access is forbidden.");
+      : super(statusCode ?? HttpStatus.forbidden,
+            message ?? "The access is forbidden.");
 }
 
 class BadRequestError extends AppException {
   BadRequestError({int? statusCode, String? title, String? message})
+      : super(statusCode ?? HttpStatus.badRequest, message ?? "Bad Request.",
+            title: title);
+}
+
+class UserAlreadyRegistered extends AppException {
+  UserAlreadyRegistered({int? statusCode, String? title, String? message})
       : super(statusCode ?? HttpStatus.badRequest, message ?? "Bad Request.",
             title: title);
 }

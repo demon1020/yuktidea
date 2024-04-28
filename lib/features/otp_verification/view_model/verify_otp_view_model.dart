@@ -6,6 +6,10 @@ import '../model/get_otp_model.dart';
 
 class VerifyOtpViewModel with ChangeNotifier {
   final _myRepo = OtpVerificationRepository();
+  final TextEditingController pinController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   ApiResponse<VerifyOtp> verifyOtp = ApiResponse.loading();
   ApiResponse<GetOtp> resendOtpResponse = ApiResponse.loading();
   final TimerHelper _timerService = TimerHelper();
@@ -40,6 +44,7 @@ class VerifyOtpViewModel with ChangeNotifier {
       message = "";
       setVerifyOtpResponse(ApiResponse.completed(data));
       stopTimer();
+      pinController.clear();
       await saveToken(data.data.accessToken);
       Navigator.pushNamed(
           navigatorKey.currentContext!, RoutesName.countrySelectionView);

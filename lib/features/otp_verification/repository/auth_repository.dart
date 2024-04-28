@@ -1,6 +1,6 @@
 import '../../../core.dart';
 
-class AuthRepository extends ChangeNotifier {
+class AuthRepository with ChangeNotifier {
   UserType userType = UserType.student;
   final BaseApiServices _apiServices = NetworkApiService();
 

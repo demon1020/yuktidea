@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:yuktidea/core.dart';
 
@@ -18,6 +19,7 @@ class _StartupViewState extends State<StartupView> {
   }
 
   Future<void> init() async {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     final SharedPreferencesService prefs = SharedPreferencesService();
     isLogin = await prefs.getLogin() ?? false;
     if (isLogin) {
@@ -54,7 +56,7 @@ class _StartupViewState extends State<StartupView> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           height: SizeConfig.screenHeight,
           child: Stack(
             fit: StackFit.passthrough,
